@@ -3,41 +3,149 @@
 *{
     box-sizing: border-box;
     margin: 0;
+    padding: 0;
 }
 body{
-    font-family: 'Nunito', sans-serif !important;
+    font-family: 'Nunito' !important;
     font-weight: 200 !important;
     background-color: #123332 !important;
 }
 
 /* Navbar */
-
+.navbar{
+    padding: 15px 0;
+    transition: all 0.3s ease-in-out;
+}
 .logo{
     width: 100px;
     height: auto;
+    margin-right: 20px;
 }
 .navbar-toggler{
-    background-color: #f9eee7 !important;
+    background-color: transparent !important;
     margin-right: 10px;
+    border: none;
+}
+.navbar-toggler:focus{
+    outline: none !important;
+    box-shadow: none !important ;
+    background-color: #ef9c82 !important;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(249, 238, 231, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 .navbar-nav{
-    margin: 0 auto;
-    align-items: center;
-    gap: 97px;
+    margin-left: 20px;
+}
+.nav-item{
+    margin-right: 30px;
 }
 .nav-link{
     color:#f9eee7 !important;
+    font-weight: 500 !important;
+    transition: color 0.3s ease-in-out;
 }
 .nav-link:hover{
     color: #ffd9be !important;
+}
+.navbar-collapse{
     transition: all 0.3s ease-in-out;
 }
 @media (max-width:991px){
+    .navbar-nav{
+        margin-left: 0;
+    }
+    .nav-item{
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
     #navbarSupportedContent{
-        background-color:  #1d4241!important;
+        background-color: rgba(29, 66, 65, 0.95) !important;
         padding: 20px;
-        margin-top: 0;
-        height: 83vh;
-        opacity: 0.7;
+        margin-top: 10px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-collapse{
+        opacity: 0;
+    }
+    .navbar-collapse.show{
+        opacity: 1;
+    }
+}
+
+/* Hero Section */
+.hero {
+    padding: 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.text-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
+}
+.hero-title{
+    font-family: "Rubik Wet Paint", system-ui;
+    font-size: clamp(60px, 10vw, 170px);
+    text-shadow: 2px 2px #333;
+    color: #ffd9be;
+    margin: 0;
+    line-height: 1.2;
+}
+.hero-paragraph{
+    color: #f9eee7;
+    font-size: clamp(16px, 3vw, 30px);
+    word-wrap: break-word;
+    margin-bottom: 20px;
+}
+.btn-custom{
+    background-color:  #ef9c82 !important;
+    color: #123332 !important;
+    font-weight: 800 !important;
+    padding: 10px 20px;
+    border-radius: 5px;
+    width: fit-content !important;
+    font-size: clamp(14px, 2vw, 18px);
+}
+.btn-custom:hover{
+    background-color: #ffd9be !important;
+}
+.hero-image{
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero {
+        text-align: center;
+    }
+
+    .text-section {
+        margin-bottom: 30px;
+    }
+
+    .btn-custom {
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 769px) {
+    .hero {
+        min-height: 80vh;
+    }
+
+    .hero .row {
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-image {
+        margin-top: -50px;
     }
 }
