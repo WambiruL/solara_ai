@@ -23,4 +23,4 @@ def register(request):
         else:
             error_message = 'Passwords don\'t match'
             return render(request, 'register.html', {'error_message': error_message})
-    return render(request, 'register.html', {'error_message':error_message})
+    return render(request, 'register.html')

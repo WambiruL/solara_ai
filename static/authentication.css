@@ -2,6 +2,9 @@
     position: relative;
     height: 100vh;
     overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
 }
 .background-container{
     position: absolute;
@@ -21,7 +24,6 @@
     z-index: 1;
     padding: 2rem;
     height: 100%;
-    width: calc(100% - 4rem);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -72,49 +74,15 @@
     object-fit: cover;
     width: 600px;
 }
-@media (max-width: 768px) {
-    .left-side {
-        height: auto;
-        min-height: 100vh;
-    }
 
-    .content-overlay {
-        position: relative;
-        height: auto;
-    }
 
-    .register-heading {
-        font-size: 2rem;
-    }
-
-    .register-none {
-        font-size: 1rem;
-    }
-
-    .bot-img-container img {
-        max-width: 80%;
-    }
-}
-
-@media (max-width: 480px) {
-    .content-overlay {
-        padding: 1rem;
-        width: calc(100% - 2rem);
-    }
-
-    .register-heading {
-        font-size: 1.5rem;
-    }
-
-    .btn-custom.sign-up {
-        width: 100%;
-    }
-}
 .right-side{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    flex: 1;
 }
 form{
     display: flex;
