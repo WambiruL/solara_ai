@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
 from .models import UserProfile
+from chatbot.views import chatbot
 
 # Create your views here.
 def register(request):
@@ -16,7 +17,7 @@ def register(request):
                 user = User.objects.create_user(username, email, password)
                 user.save()
                 auth.login(request, user)
-                return redirect('')
+                return redirect('chatbot')
             except:
                 error_message = 'Error creating account'
                 return render(request, 'register.html')
@@ -24,3 +25,18 @@ def register(request):
             error_message = 'Passwords don\'t match'
             return render(request, 'register.html', {'error_message': error_message})
     return render(request, 'register.html')
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(request, username = username, password = password)
+        
+        if user is not None:
+            auth.login(request, user)
+            return redirect('chatbot')
+        else:
+            error_message = 'Invalid Username or Password'
+            return render(request, 'login.html', {'error_message': error_message})
+    else:
+        return render(request, 'login.html')

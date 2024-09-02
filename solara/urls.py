@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from landing_page.views import index
-from authentication.views import register
+from authentication.views import register, login
+from chatbot.views import chatbot
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index),
-    path('register', register),
+    path('', index, name = "index"),
+    path('register', register, name = "register"),
+    path('login', login, name = "login"),
+    path('solara_ai', chatbot, name = "chatbot" )
 ]
