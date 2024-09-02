@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 left-side">
+                <div class="background-container">
+                    <img src=" {% static "Images/Lux-7.jpg" %} " alt="backgroundimg" class="img-fluid background-image">
+                </div>
+                <div class="content-overlay">
+                    <div class="top-content">
+                        <a class="navbar-brand" href="">
+                            <img src="{% static "Images/logo.png" %}" class="register-logo"></img>
+                        </a>
+                        <h2 class="register-heading">
+                            Hello! Welcome to Solara - Vibe and Thrive
+                        </h2>
+                        <p class="register-none">
+                        Already have an account?
+                        </p>                
+                        <button class="btn btn-custom sign-up">Sign In</button>                        
+                    </div>
+                    
+                    <div class="bot-img-container">
+                        <img src=" {% static "Images/robot.png" %} " alt="robot" class="img-fluid">
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-md-6 right-side">
+                <h2 class="register-heading">Sign Up</h2>
+                <form action="">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" aria-describedby="usernameHelp">
+                        <div id="usernameHelp" class="form-text">Pick a username that's as unique as you are 🌟</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">Your email's safe with us, pinky promise! 🤞✨</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" aria-describedby="passwordlHelp">
+                        <div id="passwordHelp" class="form-text">Choose something fire that'll keep the hackers shook 🔥🔒</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirm_password" aria-describedby="confirmPasswordHelp">
+                        <div id="confirmPasswordHelp" class="form-text">Don’t let the passwords ghost each other 💫💻</div>
+                    </div>
+                    <button type="submit" class="btn btn-custom sign-up-submit">Submit</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock  %}

@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Rubik+Wet+Paint&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Rubik+Wet+Paint&display=swap');
 
 *{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
+} */
 body{
     font-family: 'Nunito' !important;
     font-weight: 200 !important;
