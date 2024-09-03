@@ -23,8 +23,42 @@
             <button class="btn btn-custom mt-2" onclick="sendMessage()"><i class="fa-solid fa-paper-plane fa-xl" style="color:  #123332;"></i></button>
         </div>
     </div>
-
 </div>
+<script>
+    //function to handle sending a message
+    function sendMessage(){
+        let userInput = document.getElementById('userInput').value;
+        if(userInput.trim() === ''){
+            return; //Don't send empty messages
+        }
+
+        //display user's message in the chatbox
+        addChatBubble(userInput, 'user');
+
+        //clear the input field
+        document.getElementById('userInput').value = '';
+
+        //Simulate a response from Solara
+        setTimeout(() =>{
+            let botResponse = "What do you wanna talk about today?"
+            addChatBubble(botResponse, 'bot');
+        }, 1000);
+    }
+
+    //function to add a chat bubble to the chatbox
+    function addChatBubble(text, sender){
+        let chatbox = document.getElementById('chatbox');
+        let bubble = document.createElement('div');
+
+        bubble.classList.add('chat-bubble', sender);
+        bubble.innerText = text;
+
+        chatbot.appendChild(bubble);
+
+        //scroll to the bottom of the chatbox
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+</script>
 
 
 {% endblock %}
