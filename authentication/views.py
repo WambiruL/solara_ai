@@ -17,7 +17,7 @@ def register(request):
                 user = User.objects.create_user(username, email, password)
                 user.save()
                 auth.login(request, user)
-                return redirect('chatbot')
+                return redirect('login')
             except:
                 error_message = 'Error creating account'
                 return render(request, 'register.html')
@@ -40,3 +40,7 @@ def login(request):
             return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html')
+    
+def logout(request):
+    auth.logout(request)
+    return redirect('')

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <div class = "card-header">
+            {% if user.is_authenticated %}
+           <p class="user_greeting"> Hi, {{user.username}} 😊</p>
+            {% endif %}
+            <a class="navbar-brand" href="">
+                <img src="{% static "Images/logo.png" %}" class="chatbot-logo"></img>
+            </a>
+            <div class="logout">
+                <a href="{% url "logout" %}"><i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #f9eee7;"></i></a> 
+            </div>        
+        </div>
+        <div class="card-body" id="chatbox">
+            {% comment %} Chat messages will be added here dynamically {% endcomment %}
+        </div>
+        <div class="card-footer">
+            <input type="text" class ="form-control" id="userInput" placeholder = "Type something...">
+            <button class="btn btn-custom mt-2" onclick="sendMessage()"><i class="fa-solid fa-paper-plane fa-xl" style="color:  #123332;"></i></button>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
