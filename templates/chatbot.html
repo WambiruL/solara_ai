@@ -19,41 +19,76 @@
             {% comment %} Chat messages will be added here dynamically {% endcomment %}
         </div>
         <div class="card-footer">
-            <input type="text" class ="form-control" id="userInput" placeholder = "Type something...">
-            <button class="btn btn-custom mt-2" onclick="sendMessage()"><i class="fa-solid fa-paper-plane fa-xl" style="color:  #123332;"></i></button>
-        </div>
+            <form method = 'post' id='chat-form'>
+                {% csrf_token %}
+                <input type="text" class ="form-control" id="message" name="message" placeholder = "Type something...">
+                <button class="btn btn-custom mt-2" type="submit"><i class="fa-solid fa-paper-plane fa-xl" style="color:  #123332;"></i></button>
+            </form>                
+        </div>        
     </div>
 </div>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('chat-form').addEventListener('submit', sendMessage);
+    });
+
     //function to handle sending a message
-    function sendMessage(){
-        let userInput = document.getElementById('userInput').value;
-        if(userInput.trim() === ''){
+    async function sendMessage(event){
+        event.preventDefault();
+
+        let message = document.getElementById('message').value;
+        if(message.trim() === ''){
             return; //Don't send empty messages
         }
 
         //display user's message in the chatbox
-        addChatBubble(userInput, 'user');
+        addChatBubble(message, 'user');
 
         //clear the input field
-        document.getElementById('userInput').value = '';
+        document.getElementById('message').value = '';
 
-        //Simulate a response from Solara
-        setTimeout(() =>{
-            let botResponse = "What do you wanna talk about today?"
+        //send the user's message to the backend
+        try{
+            let response = await fetch('/solara_ai/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: new URLSearchParams({
+                    'message':message
+                })
+            });
+
+            if(!response.ok){
+                throw new Error('Network response was not ok');
+            }
+            let data = await response.json();
+            let botResponse = data.message;
+
+            //Display bot's response
             addChatBubble(botResponse, 'bot');
-        }, 1000);
+        } catch(error){
+            console.error('There was a problem with the fetch operation', error);
+        }
     }
 
     //function to add a chat bubble to the chatbox
     function addChatBubble(text, sender){
         let chatbox = document.getElementById('chatbox');
         let bubble = document.createElement('div');
+        let senderLabel = document.createElement('div');
 
+        //create sender senderLabel
+        senderLabel.classList.add('sender-label', sender);
+        senderLabel.innerText = sender === 'user'? 'You' : 'Solara'
+
+        //add classes and text to the bubble
         bubble.classList.add('chat-bubble', sender);
         bubble.innerText = text;
-
-        chatbot.appendChild(bubble);
+        
+        chatbox.appendChild(senderLabel);
+        chatbox.appendChild(bubble);
 
         //scroll to the bottom of the chatbox
         chatbox.scrollTop = chatbox.scrollHeight;
