@@ -5,15 +5,20 @@
 <div class="container">
     <div class="card">
         <div class = "card-header">
-            {% if user.is_authenticated %}
-           <p class="user_greeting"> Hi, {{user.username}} 😊</p>
-            {% endif %}
-            <a class="navbar-brand" href="">
-                <img src="{% static "Images/logo.png" %}" class="chatbot-logo"></img>
-            </a>
-            <div class="logout">
-                <a href="{% url "logout" %}"><i class="fa-solid fa-right-from-bracket fa-xl" style="color: #f9eee7;"></i></a> 
-            </div>        
+            <div class="chat-headerbackground-container">
+                <img src=" {% static "Images/Lux-7.jpg" %} " alt="backgroundimg" class="img-fluid background-image">
+            </div>
+            <div class="content-container">
+                <a class="navbar-brand" href="">
+                    <img src="{% static "Images/logo.png" %}" class="chatbot-logo"></img>
+                </a>
+                {% if user.is_authenticated %}
+                <p class="user_greeting"> Hi, {{user.username}} 😊</p>
+                {% endif %}
+                <div class="logout">
+                    <a href="{% url "logout" %}"><i class="fa-solid fa-right-from-bracket fa-xl" style="color: #f9eee7;"></i></a> 
+                </div> 
+            </div>       
         </div>
         <div class="card-body" id="chatbox">
             {% comment %} Chat messages will be added here dynamically {% endcomment %}
@@ -61,13 +66,15 @@
             });
 
             if(!response.ok){
-                throw new Error('Network response was not ok');
+                const errorText = await response.text();
+                throw new Error(`Network response was not ok: ${response.statusText}. ${errorText}`);
             }
             let data = await response.json();
             let botResponse = data.message;
-
+            console.log(botResponse);
             //Display bot's response
             addChatBubble(botResponse, 'bot');
+            
         } catch(error){
             console.error('There was a problem with the fetch operation', error);
         }
