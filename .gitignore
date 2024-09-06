@@ -1,3 +1,4 @@
 # created by virtualenv automatically
 /staticfiles/
 .env
+__pycache__
