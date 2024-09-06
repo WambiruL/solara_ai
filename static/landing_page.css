@@ -51,6 +51,18 @@ body{
 .navbar-collapse{
     transition: all 0.3s ease-in-out;
 }
+.coming-soon {
+    display: inline-block;
+    padding: 2px 6px;
+    margin-left: 40px;
+    font-size: 10px;
+    color: #ef9c82; 
+    background-color: #123332;
+    border: 1px solid #ef9c82;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
 @media (max-width:991px){
     .navbar-nav{
         margin-left: 0;
