@@ -277,7 +277,7 @@ body{
     /* padding: 50px 20px; */
 }
 
-.content-container {
+.about-content-container {
     margin-bottom: 40px !important;
     padding-top: 40px;
     padding: 40px;
@@ -298,11 +298,11 @@ body{
     float: left;
 }
 /* Hover effect */
-.content-container:hover {
+.about-content-container:hover {
     transform: scale(1.05);
 }
 /* Typography */
-.content-container h2 {
+.about-content-container h2 {
     color: #ffd9be !important;
     font-family: 'Rubik Wet Paint', sans-serif;
     font-size: 40px;
@@ -310,8 +310,8 @@ body{
     margin-bottom: 15px;
 }
 
-.content-container p {
-    color: #f9eee7;
+.about-content-container p {
+    color: #f9eee7 !important;
     font-size: 18px;
     text-align: left;
     font-weight: 400;
@@ -332,7 +332,7 @@ body{
 
 .about-footer h6 {
     font-size: 20px;
-    color: #ffd9be;
+    color: #ffd9be !important;
     font-weight: 700;
     margin-bottom: 25px;
 }
