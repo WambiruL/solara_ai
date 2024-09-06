@@ -19,6 +19,39 @@
         margin: 0;
         padding: 0;
        }
+
+        /* Loader Styles */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(18, 51, 50, 1) 0%, rgba(34, 85, 83, 1) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Make sure it's on top of everything */
+        }
+
+        .loader {
+            border: 8px solid  #ef9c82; 
+            border-top: 8px solid  #ffd9be;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Hide loader by default */
+        .loader-wrapper.hidden {
+            display: none;
+        }
     </style>
     <link rel="stylesheet" href = "{% static "landing_page.css" %}">
     <link rel="stylesheet" href = "{% static "authentication.css" %}">
@@ -32,6 +65,9 @@
 </head>
 
 <body>
+    <div class="loader-wrapper" id="loader">
+        <div class="loader"></div>
+    </div>
     {% block content %}{% endblock %}
     <script src="https://kit.fontawesome.com/cb5d439dd3.js" crossorigin="anonymous"></script>
     <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
@@ -42,6 +78,19 @@
     <script>
         AOS.init();
     </script>
+    <script>
+        // JavaScript to hide loader after page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const loader = document.getElementById('loader');
+            
+            // Wait for the page to fully load
+            window.addEventListener('load', function() {
+                setTimeout(function(){
+                    loader.classList.add('hidden');
+                }, 1000);
+            });
+        });
+    </script>  
     {% block scripts %}{% endblock %}
 </body>
 </html>
