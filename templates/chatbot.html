@@ -21,6 +21,16 @@
             </div>       
         </div>
         <div class="card-body" id="chatbox">
+            {% comment %} retrieve chat history {% endcomment %}
+            {% for chat in chat_history  %}
+                {% if chat.is_user %}
+                    <div class="sender-label user">You</div>
+                    <div class="chat-bubble user">{{chat.message}}</div>
+                {% else %}
+                    <div class="sender-label bot">Solara</div>
+                    <div class="chat-bubble bot">{{chat.message}}</div>
+                {% endif %}
+            {% endfor %}
             {% comment %} Chat messages will be added here dynamically {% endcomment %}
         </div>
         <div class="card-footer">

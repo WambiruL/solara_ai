@@ -1,4 +1,5 @@
 from django.conf import settings
+from .models import Chat
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -129,12 +130,25 @@ def get_response(user_message):
 
 @csrf_exempt
 def chatbot(request):
+    
+    #retrieve chat history
+    if request.method == 'GET' and request.user.is_authenticated:
+        chats = Chat.objects.filter(user = request.user).order_by('timestamp')
+        chat_history = [{'message': chat.message, 'is_user':chat.is_user} for chat in chats]
+        
+        return render(request, 'chatbot.html', {'chat_history':chat_history})
+    
+    #main code to display user's and bot's chats
     if request.method == 'POST':
         print(request.POST) 
         user_message = request.POST.get('message', '')
         
         if not user_message:
             return JsonResponse({'error': 'No message provided'}, status = 400)
+        
+        #save user's message to the chat model
+        if request.user.is_authenticated:
+            Chat.objects.create(user = request.user, message = user_message, is_user = True)
         
         try:
             bot_response = get_response(user_message)
@@ -143,8 +157,13 @@ def chatbot(request):
             if bot_response is None:
                 bot_response = chain.run(message=user_message)
                 
+            #save bot's response to the chat model
+            if request.user.is_authenticated:
+                Chat.objects.create(user = request.user, message = bot_response, is_user = False)
+                
             return JsonResponse({'message': bot_response})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status = 500)
+        
             
     return render(request, 'chatbot.html')
