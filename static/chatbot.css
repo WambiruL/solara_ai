@@ -166,6 +166,15 @@
     align-self: flex-end !important;
 }
 
+#chat-loader {
+    font-style: italic !important;
+    color: #666 !important;
+    font-size: 30px !important;
+    font-weight: 400 !important;
+    text-align: center;
+    margin-top: 10px;
+}
+
 /* NOT FOUND */
 .not-found-container{
     display: flex;

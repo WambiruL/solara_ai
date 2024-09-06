@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-
+{% if not user.is_authenticated %}
 <section>
     <div class="container-fluid">
         <div class="row">
@@ -49,5 +49,20 @@
         </div>
     </div>
 </section>
+{% else %}
+<div class="not-found-container">
+    <div class="not-found">
+        <p>
+            Oops, you heading out?😅 Where to next?
+        </p>
+        <a href="{% url "index" %}" class="btn btn-custom">
+            Go back to Landing Page
+        </a>
+        <a href="{% url "logout" %}" class="btn btn-outline-danger">
+            Logout
+        </a>
+    </div>     
+</div>
+{% endif %}
 
 {% endblock  %}

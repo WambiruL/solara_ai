@@ -41,9 +41,15 @@
                 <p class="hero-paragraph mb-4">AI-powered support for brighter minds 
                     and balanced lives.
                 </p>
+                {% if user.is_authenticated %}
+                    <a href="solara_ai/" class="btn btn-custom">
+                        Start Your Journey
+                    </a>
+                {% else %}   
                 <a href="login" class="btn btn-custom">
                     Start Your Journey
-                </a> 
+                </a>                
+                {% endif %}
             </div>
             <div class="col-lg-6 mt-5 mt-lg-0 hero-image ">
                 <img src="{% static "Images/brain.png" %}" alt="Brain Image" class="img-fluid">

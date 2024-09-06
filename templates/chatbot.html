@@ -31,7 +31,10 @@
                 {% endif %}
             {% endfor %}
             {% comment %} Chat messages will be added here dynamically {% endcomment %}
+            <div class="chat-loader" id="chat-loader" style="display: none;">Thinking...</div>
         </div>
+
+       
         <div class="card-footer">
             <form method = 'post' id='chat-form'>
                 {% csrf_token %}
@@ -73,7 +76,7 @@
 
         //clear the input field
         document.getElementById('message').value = '';
-
+         
         //send the user's message to the backend
         try{
             let response = await fetch('/solara_ai/',{
@@ -86,6 +89,8 @@
                     'message':message
                 })
             });
+            //show the loader when bringing the message
+            document.getElementById('chat-loader').style.display = 'block';
 
             if(!response.ok){
                 const errorText = await response.text();
@@ -93,7 +98,10 @@
             }
             let data = await response.json();
             let botResponse = data.message;
-            console.log(botResponse);
+            
+            //Hide the loader after response
+            document.getElementById('chat-loader').style.display = 'none';
+
             //Display bot's response
             addChatBubble(botResponse, 'bot');
             

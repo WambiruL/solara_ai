@@ -12,27 +12,27 @@ import os
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
-load_dotenv()
+# load_dotenv()
 
 
 # Create your views here.
 
 #using openai to get bot responses
 # Set Up openai API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Define langchain prompttemplate
-template = """ 
-You are an AI mental health therapist. You help students
-with their mental health issues.
-The student says : "{message}"
-Respond in a kind and helpful manner
-"""
-prompt = PromptTemplate(input_variables=["message"], template=template)
+# # Define langchain prompttemplate
+# template = """ 
+# You are an AI mental health therapist. You help students
+# with their mental health issues.
+# The student says : "{message}"
+# Respond in a kind and helpful manner
+# """
+# prompt = PromptTemplate(input_variables=["message"], template=template)
 
-#Initialize the langchain with openai model
-llm = OpenAI(temperature = 0.7)
-chain = LLMChain(llm = llm, prompt = prompt)
+# #Initialize the langchain with openai model
+# llm = OpenAI(temperature = 0.7)
+# chain = LLMChain(llm = llm, prompt = prompt)
 
 
 #using a csv file to get bot responses
@@ -79,10 +79,16 @@ chain = LLMChain(llm = llm, prompt = prompt)
 
 #using json file to get bot responses
 import json
-json_path = os.path.join(settings.BASE_DIR, 'chatbot', 'data', 'intents.json')
-with open(json_path, 'r') as file:
-    intents = json.load(file)
+json_path_intents = os.path.join(settings.BASE_DIR, 'chatbot', 'data', 'intents.json')
+with open(json_path_intents, 'r') as file:
+    intents_data = json.load(file)
 
+json_path_kb = os.path.join(settings.BASE_DIR, 'chatbot', 'data', 'KB.json')
+with open(json_path_kb, 'r') as file:
+    kb_data = json.load(file)
+    
+combined_intents = intents_data['intents'] + kb_data['intents']
+    
 #Check similarities using re
 # import re
 # def get_response(user_message):
@@ -96,24 +102,40 @@ with open(json_path, 'r') as file:
 
 #check similarities in trained question and response using spacy
 import spacy
+import random
+import concurrent.futures
 nlp = spacy.load("en_core_web_md") 
+cached_patterns = [
+    (nlp(pattern.lower()), intent.get('responses', ["I'm sorry, I didn't understand that. Can you try rephrasing?"]))
+                   for intent in combined_intents
+                   for pattern in intent.get('patterns', [])
+]
 
+def compare_pattern(user_doc, pattern_doc, responses):
+    if user_doc.vector_norm and pattern_doc.vector_norm:
+        return user_doc.similarity(pattern_doc), random.choice(responses)
+    return 0, None
+         
 def get_response(user_message):
     user_doc = nlp(user_message.lower())
     max_similarity = 0
     best_match = None
     
-    for intent in intents['intents']:
-        for pattern in intent['patterns']:
-            pattern_doc = nlp(pattern.lower())
-            similarity = user_doc.similarity(pattern_doc)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        #submit pattern comparison tasks to the executor
+        futures = [
+            executor.submit(compare_pattern, user_doc, pattern_doc, responses)
+            for pattern_doc, responses in cached_patterns
+        ]
+        for future in concurrent.futures.as_completed(futures):
+            similarity, response = future.result()
             if similarity > max_similarity:
                 max_similarity = similarity
-                best_match = intent['responses'][0]
+                best_match = response
     
     if max_similarity > 0.5:  # Threshold for similarity
         return best_match
-    return None
+    return "I'm sorry, I didn't understand that. Can you try rephrasing?"
 
 #without checking for similarities
 # def get_response(user_message):
@@ -140,7 +162,7 @@ def chatbot(request):
     
     #main code to display user's and bot's chats
     if request.method == 'POST':
-        print(request.POST) 
+        # print(request.POST) 
         user_message = request.POST.get('message', '')
         
         if not user_message:
@@ -152,10 +174,9 @@ def chatbot(request):
         
         try:
             bot_response = get_response(user_message)
-            
-            # If no response is found, use OpenAI
-            if bot_response is None:
-                bot_response = chain.run(message=user_message)
+            # # If no response is found, use OpenAI
+            # if bot_response is None:
+            #     bot_response = chain.run(message=user_message)
                 
             #save bot's response to the chat model
             if request.user.is_authenticated:
