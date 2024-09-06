@@ -11,7 +11,6 @@ body{
     background-color: #123332 !important;
     color: #f9eee7;
 }
-
 /* Navbar */
 .navbar{
     padding: 20px 0;
@@ -52,6 +51,18 @@ body{
 .navbar-collapse{
     transition: all 0.3s ease-in-out;
 }
+.coming-soon {
+    display: inline-block;
+    padding: 2px 6px;
+    margin-left: 40px;
+    font-size: 10px;
+    color: #ef9c82; 
+    background-color: #123332;
+    border: 1px solid #ef9c82;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
 @media (max-width:991px){
     .navbar-nav{
         margin-left: 0;
@@ -256,4 +267,81 @@ body{
 /* Hover effect for hero content */
 .hero-content:hover .circle {
     opacity: 0.15;
+}
+
+/* ABOUT */
+/* General Container Styling */
+.about-solara-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* padding: 50px 20px; */
+}
+
+.content-container {
+    margin-bottom: 40px !important;
+    padding-top: 40px;
+    padding: 40px;
+    background-color: rgba(29, 66, 65, 0.9); 
+    background-image: url('Images/Lux-7.jpg');
+    background-blend-mode: hard-light;
+    background-size: cover;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+    width: 60%;
+    margin: 0 auto;
+}
+.who-solara, .how-solara{
+    float: right;
+}
+.about-solara, .why-solara, .privacy-solara{
+    float: left;
+}
+/* Hover effect */
+.content-container:hover {
+    transform: scale(1.05);
+}
+/* Typography */
+.content-container h2 {
+    color: #ffd9be !important;
+    font-family: 'Rubik Wet Paint', sans-serif;
+    font-size: 40px;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.content-container p {
+    color: #f9eee7;
+    font-size: 18px;
+    text-align: left;
+    font-weight: 400;
+}
+
+/* Footer */
+.about-footer {
+    text-align: center;
+    background-image: url('Images/blob.png');
+    background-size: cover;
+    padding: 50px 30px;
+    border-radius: 15px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    clear: both;
+}
+
+.about-footer h6 {
+    font-size: 20px;
+    color: #ffd9be;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.about-footer p {
+    font-size: 1.1rem;
+    color: #f9eee7;
+    font-weight: 300;
+    margin-bottom: 30px;
+    text-align: center;
+    opacity: 0.9;
 }
