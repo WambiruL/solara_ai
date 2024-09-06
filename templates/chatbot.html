@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 
+{% if user.is_authenticated %}
 <div class="container">
     <div class="card">
         <div class = "card-header">
@@ -12,9 +13,7 @@
                 <a class="navbar-brand" href="">
                     <img src="{% static "Images/logo.png" %}" class="chatbot-logo"></img>
                 </a>
-                {% if user.is_authenticated %}
                 <p class="user_greeting"> Hi, {{user.username}} 😊</p>
-                {% endif %}
                 <div class="logout">
                     <a href="{% url "logout" %}"><i class="fa-solid fa-right-from-bracket fa-xl" style="color: #f9eee7;"></i></a> 
                 </div> 
@@ -42,6 +41,19 @@
         </div>        
     </div>
 </div>
+{% else %}
+<div class="not-found-container">
+    <div class="not-found">
+        <p>
+            Oops!😅 Looks like you took a wrong turn. Head back to the login page and let's get you started!🚀👋
+        </p>
+        <a href="{% url "login" %}" class="btn btn-custom">
+            Sign In
+        </a>
+    </div>     
+</div>
+                
+{% endif %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('chat-form').addEventListener('submit', sendMessage);

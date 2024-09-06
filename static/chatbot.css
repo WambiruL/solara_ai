@@ -165,3 +165,29 @@
 .sender-label.user{
     align-self: flex-end !important;
 }
+
+/* NOT FOUND */
+.not-found-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to right, rgba(18, 51, 50, 0.7), rgba(18, 51, 50, 0.9)) !important;
+    color: #f9eee7 !important;
+    text-align: center;
+    margin: 0;
+}
+
+.not-found {
+    background-color:  #1d4241 !important;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+    max-width: 600px;
+    width: 100%;
+}
+
+.not-found p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
