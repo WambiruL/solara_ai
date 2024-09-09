@@ -200,3 +200,49 @@
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
 }
+
+/* Feedback form */
+/* Style the feedback container */
+.feedback-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f9eee7 !important;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: fit-content;
+}
+
+/* Style the feedback question */
+.feedback-question {
+    margin: 0;
+    font-size: 14px;
+    color: #ccc !important;
+    margin-right: 15px;
+}
+
+/* Style the feedback buttons */
+.btn-feedback {
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+/* button styles */
+.btn-yes, .btn-no {
+    border: 2px solid #123332;
+    color: #123332;
+}
+
+.btn-yes:hover, .btn-no:hover {
+    background-color: #123332;
+    color: #f9eee7;
+}
+

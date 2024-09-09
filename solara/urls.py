@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from landing_page.views import index
 from authentication.views import register, login, logout
-from chatbot.views import chatbot
+from chatbot.views import chatbot, submit_feedback
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +26,6 @@ urlpatterns = [
     path('register', register, name = "register"),
     path('login', login, name = "login"),
     path('logout', logout, name= "logout"),
-    path('solara_ai/', chatbot, name = "chatbot" )
+    path('solara_ai/', chatbot, name = "chatbot" ),
+    path('submit_feedback/', submit_feedback, name = 'submit_feedback'),
 ]

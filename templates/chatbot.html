@@ -31,7 +31,7 @@
                 {% endif %}
             {% endfor %}
             {% comment %} Chat messages will be added here dynamically {% endcomment %}
-            <div class="chat-loader" id="chat-loader" style="display: none;">Thinking...</div>
+            
         </div>
 
        
@@ -89,8 +89,9 @@
                     'message':message
                 })
             });
+
             //show the loader when bringing the message
-            document.getElementById('chat-loader').style.display = 'block';
+            //document.getElementById('chat-loader').style.display = 'block';
 
             if(!response.ok){
                 const errorText = await response.text();
@@ -98,12 +99,12 @@
             }
             let data = await response.json();
             let botResponse = data.message;
-            
-            //Hide the loader after response
-            document.getElementById('chat-loader').style.display = 'none';
 
             //Display bot's response
             addChatBubble(botResponse, 'bot');
+
+            //Add feedback buttons for bot response
+            addFeedbackButtons();
             
         } catch(error){
             console.error('There was a problem with the fetch operation', error);
@@ -130,6 +131,66 @@
         //scroll to the bottom of the chatbox
         chatbox.scrollTop = chatbox.scrollHeight;
     }
+
+    //Function to add feedback buttons after each bot response
+    function addFeedbackButtons(){
+        let chatbox = document.getElementById('chatbox');
+        let feedbackContainer = document.createElement('div');
+        feedbackContainer.classList.add('feedback-container');
+
+        //create feedback question and buttons
+        let question = document.createElement('p');
+        question.innerText = 'Was this response helpful?';
+        let yesButton = document.createElement('button');
+        let noButton = document.createElement('button');
+
+        yesButton.innerText = 'Yes';
+        noButton.innerText = 'No';
+
+        yesButton.classList.add('btn-feedback', 'btn-yes');
+        noButton.classList.add('btn-feedback', 'btn-no');
+
+        //yesButton.classList.add('data-feedback', 'yes');
+        //noButton.classList.add('data-feedback', 'no');
+
+        //Attach even listeners to feedback buttons
+        yesButton.addEventListener('click', sendFeedback);
+        noButton.addEventListener('click', sendFeedback);
+
+        //Append everything to the feedback container
+        feedbackContainer.appendChild(question);
+        feedbackContainer.appendChild(yesButton);
+        feedbackContainer.appendChild(noButton);
+
+        //Append the feedback container to the chatbox
+        chatbox.appendChild(feedbackContainer);
+    }
+
+    //Function to send feedback to the server
+    async function sendFeedback(event){
+        let feedback = event.target.innerText.toLowerCase();
+
+        try{
+            let response = await fetch('/submit_feedback/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken' : document.querySelector('[name = csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify({
+                    feedback: feedback
+                })
+            });
+            if(!response.ok){
+                throw new Error('Error sending feedback');
+            }
+
+            //Hide the feedback buttons after feedback is submitted
+            event.target.parentElement.style.display = 'none';
+        }catch(error){
+            console.error('Error submitting feedback: ',error);
+        }
+    }    
 </script>
 
 

@@ -1,5 +1,5 @@
 from django.conf import settings
-from .models import Chat
+from .models import Chat, Feedback
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -185,6 +185,17 @@ def chatbot(request):
             return JsonResponse({'message': bot_response})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status = 500)
-        
-            
+          
     return render(request, 'chatbot.html')
+
+@csrf_exempt
+def submit_feedback(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        feedback = data.get('feedback')
+        
+        #store in database
+        Feedback.objects.create(feedback = feedback)
+        
+        return JsonResponse({'status': 'success', 'message': 'Feedback received!'})
+    return JsonResponse({'status':'error', 'message':'Invalid request'}, status = 400)

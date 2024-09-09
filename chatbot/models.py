@@ -7,3 +7,10 @@ class Chat(models.Model):
     message = models.TextField()
     is_user = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    
+class Feedback(models.Model):
+    feedback = models.CharField(max_length= 3, choices = [('yes', 'Yes'), ('no', 'No')])
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Feedback:{self.feedback} on {self.timestamp}"

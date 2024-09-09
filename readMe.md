@@ -12,7 +12,6 @@
   - [5. Migrate the Database](#5-migrate-the-database)
   - [6. Run the Development Server](#6-run-the-development-server)
 - [Usage](#usage)
-- [LangChain & OpenAI Integration](#langchain--openai-integration)
 - [User Interface Design](#user-interface-design)
 - [Contributing](#contributing)
 - [License](#license)
@@ -102,30 +101,6 @@ Open your browser and go to `http://127.0.0.1:8000/` to see the application runn
 1. **Register**: Create an account on the application using the registration form.
 2. **Login**: After registering, log in to access the chatbot.
 3. **Start Chatting**: Engage with the chatbot by typing your messages into the chatbox. The bot will respond with AI-powered responses to help guide you through your issues.
-
-## LangChain & OpenAI Integration
-
-This project utilizes the following components for AI integration:
-- **LangChain**: A framework for building applications powered by language models. It is used to structure conversations and handle interaction logic.
-- **OpenAI API**: The chatbot uses OpenAI's GPT models to generate human-like responses.
-
-The AI model is integrated in the backend and uses the following logic:
-
-```python
-from langchain_openai import OpenAI
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
-
-template = """
-You are an AI mental health therapist. You help students with their mental health issues.
-The student says: "{message}"
-Respond in a kind and helpful manner.
-"""
-
-prompt = PromptTemplate(input_variables=["message"], template=template)
-llm = OpenAI(temperature=0.7)
-chain = LLMChain(llm=llm, prompt=prompt)
-```
 
 ## User Interface Design
 
