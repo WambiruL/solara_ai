@@ -96,9 +96,15 @@
     <div class="about-footer" data-aos="fade-down" data-aos-duration="1000">
         <h6>Let's Chat</h6>
         <p>Feeling overwhelmed? Need to vent? Or just want a little advice? Solara is just a message away. Together, we can navigate the challenges of student life and work towards a brighter, more balanced you.</p>
-        <a href="login">
-            <button class="btn btn-custom">Start Your Journey</button>
-        </a>
+        {% if user.is_authenticated %}
+            <a href="solara_ai/" class="btn btn-custom">
+                Start Your Journey
+            </a>
+        {% else %}   
+            <a href="login" class="btn btn-custom">
+                Start Your Journey
+            </a>                
+        {% endif %}
     </div>
 </section>
 {% endblock %}
