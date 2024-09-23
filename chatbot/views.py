@@ -17,65 +17,6 @@ from dotenv import load_dotenv
 
 # Create your views here.
 
-#using openai to get bot responses
-# Set Up openai API key
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# # Define langchain prompttemplate
-# template = """ 
-# You are an AI mental health therapist. You help students
-# with their mental health issues.
-# The student says : "{message}"
-# Respond in a kind and helpful manner
-# """
-# prompt = PromptTemplate(input_variables=["message"], template=template)
-
-# #Initialize the langchain with openai model
-# llm = OpenAI(temperature = 0.7)
-# chain = LLMChain(llm = llm, prompt = prompt)
-
-
-#using a csv file to get bot responses
-# import pandas as pd
-# import re
-# # from fuzzywuzzy import process
-
-# data_path = os.path.join(os.path.dirname(__file__), 'data', 'Mental_Health_FAQ.csv')
-# df = pd.read_csv(data_path, encoding='ISO-8859-1')
-# print(f"DataFrame Loaded: {df.head()}") 
-
-# def get_response(user_message):
-# #     # questions = df['Questions'].tolist()
-# #     # # Use fuzzy matching to find the best match
-# #     # best_match = process.extractOne(user_message, questions)
-    
-# #     # if best_match[1] > 80:  # Only consider matches with a score higher than 80%
-# #     #     matched_row = df[df['Questions'] == best_match[0]].iloc[0]
-# #     #     return matched_row['Answers']
-# #     # return "I'm sorry, I don't have an answer for that. Please reach out to a professional counselor for help."
-#     if df is None:
-#         print("DataFrame is not loaded properly.")
-#         return "Sorry, I am having trouble accessing the data right now."
-
-#     # Check if 'Questions' column exists
-#     if 'Questions' not in df.columns:
-#         print("Column 'Questions' does not exist in DataFrame.")
-#         return "Sorry, I am having trouble accessing the data right now."
-
-#     # Normalize the user message
-#     user_message = user_message.lower()
-
-#     # Iterate through the DataFrame
-#     for index, row in df.iterrows():
-#         # Compile the pattern with case-insensitive flag
-#         pattern = re.compile(re.escape(row['Questions'].lower()), re.IGNORECASE)
-#         if pattern.search(user_message):
-#             print(f"Match found: {row['Questions']} -> {row['Answers']}")
-#             return row['Answers']
-
-#     return "I'm sorry, I don't have an answer for that. Please reach out to a professional counselor for help."
-
-
 
 #using json file to get bot responses
 import json
@@ -90,74 +31,30 @@ with open(json_path_kb, 'r') as file:
 combined_intents = intents_data['intents'] + kb_data['intents']
     
 #Check similarities using re
-# import re
-# def get_response(user_message):
-#     user_message = user_message.lower()
-#     for intent in intents['intents']:
-#         for pattern in intent['patterns']:
-#             # Use regex to check if the pattern is in the user message
-#             if re.search(re.escape(pattern.lower()), user_message):
-#                 return intent['responses'][0]
-#     return None
-
-#check similarities in trained question and response using spacy
-import spacy
+import re
 import random
-import concurrent.futures
-nlp = spacy.load("en_core_web_md") 
-cached_patterns = [
-    (nlp(pattern.lower()), intent.get('responses', ["I'm sorry, I didn't understand that. Can you try rephrasing?"]))
-                   for intent in combined_intents
-                   for pattern in intent.get('patterns', [])
-]
-
-from fuzzywuzzy import fuzz
-
-def compare_pattern(user_doc, pattern_doc, responses):
-    user_text = user_doc.text.lower()
-    pattern_text = pattern_doc.text.lower()
-    
-    # Calculate similarity using spaCy and fuzzywuzzy
-    spacy_similarity = user_doc.similarity(pattern_doc)
-    fuzzy_similarity = fuzz.ratio(user_text, pattern_text) / 100  # Convert to a 0-1 range
-    
-    # Return the highest of the two
-    similarity = max(spacy_similarity, fuzzy_similarity)
-    return similarity, random.choice(responses)
-         
 def get_response(user_message):
-    user_doc = nlp(user_message.lower())
-    max_similarity = 0
-    best_match = None
+    user_message = user_message.lower()
     
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        #submit pattern comparison tasks to the executor
-        futures = [
-            executor.submit(compare_pattern, user_doc, pattern_doc, responses)
-            for pattern_doc, responses in cached_patterns
-        ]
-        for future in concurrent.futures.as_completed(futures):
-            similarity, response = future.result()
-            if similarity > max_similarity:
-                max_similarity = similarity
-                best_match = response
-    
-    if max_similarity > 0.5:  # Threshold for similarity
-        return best_match
+    for intent in combined_intents:  # Iterate through the list directly
+        for pattern in intent['patterns']:
+            if re.search(re.escape(pattern.lower()), user_message):
+                return random.choice(intent['responses'])  # Randomly select a response
+              
     return "I'm sorry, I didn't understand that. Can you try rephrasing?"
 
-
+#no checking for similarities
+# import random
 # def get_response(user_message):
-#     for intent in intents['intents']:
+#     user_message = user_message.lower()
+    
+#     for intent in combined_intents:
 #         for pattern in intent['patterns']:
-#             if pattern.lower() in user_message.lower():
-#                 return intent['responses'][0]
-#     response = openai.Completion.create(
-    #     engine="text-davinci-003",
-    #     prompt=f"User said: {user_message}\nRespond appropriately:",
-    #     max_tokens=50
-    # )
-    # return response.choices[0].text.strip()
+#             if pattern.lower() in user_message:
+#                 return random.choice(intent['responses'])
+    
+#     return "I'm sorry, I didn't understand that. Can you try rephrasing?"
+
 
 @csrf_exempt
 def chatbot(request):
