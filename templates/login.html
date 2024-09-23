@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-{% if not user.is_authenticated %}
 <section>
     <div class="container-fluid">
         <div class="row">
@@ -49,7 +48,7 @@
         </div>
     </div>
 </section>
-{% else %}
+{% comment %} {% else %}
 <div class="not-found-container">
     <div class="not-found">
         <p>
@@ -62,7 +61,6 @@
             Logout
         </a>
     </div>     
-</div>
-{% endif %}
+</div> {% endcomment %}
 
 {% endblock  %}

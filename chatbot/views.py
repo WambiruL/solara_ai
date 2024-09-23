@@ -111,10 +111,19 @@ cached_patterns = [
                    for pattern in intent.get('patterns', [])
 ]
 
+from fuzzywuzzy import fuzz
+
 def compare_pattern(user_doc, pattern_doc, responses):
-    if user_doc.vector_norm and pattern_doc.vector_norm:
-        return user_doc.similarity(pattern_doc), random.choice(responses)
-    return 0, None
+    user_text = user_doc.text.lower()
+    pattern_text = pattern_doc.text.lower()
+    
+    # Calculate similarity using spaCy and fuzzywuzzy
+    spacy_similarity = user_doc.similarity(pattern_doc)
+    fuzzy_similarity = fuzz.ratio(user_text, pattern_text) / 100  # Convert to a 0-1 range
+    
+    # Return the highest of the two
+    similarity = max(spacy_similarity, fuzzy_similarity)
+    return similarity, random.choice(responses)
          
 def get_response(user_message):
     user_doc = nlp(user_message.lower())
@@ -137,7 +146,7 @@ def get_response(user_message):
         return best_match
     return "I'm sorry, I didn't understand that. Can you try rephrasing?"
 
-#without checking for similarities
+
 # def get_response(user_message):
 #     for intent in intents['intents']:
 #         for pattern in intent['patterns']:
