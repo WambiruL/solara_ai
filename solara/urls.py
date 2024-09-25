@@ -15,17 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from landing_page.views import index
-from authentication.views import register, login, logout
-from chatbot.views import chatbot, submit_feedback
+from django.urls import path, include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name = "index"),
-    path('register', register, name = "register"),
-    path('login', login, name = "login"),
-    path('logout', logout, name= "logout"),
-    path('solara_ai/', chatbot, name = "chatbot" ),
-    path('submit_feedback/', submit_feedback, name = 'submit_feedback'),
+    path('', include('landing_page.urls')),
+    path('auth/', include('authentication.urls')),
+    path('chat/', include('chatbot.urls')),
+    path('journal/', include('journal.urls')),
+
 ]

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container journal-container">
+    <h1 class="text-center">Your Journal</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.content }}
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-custom">Save Entry</button>
+        </div>
+    </form>
+
+    <hr>
+
+    <h2 class="text-center">Recent Entries</h2>
+    <div class="entries">
+        {% for entry in entries %}
+            <div class="entry">
+                <p>{{ entry.content }}</p>
+                <p class="sentiment">Sentiment: {{ entry.sentiment }}</p>
+                <small>{{ entry.created_at|date:"F j, Y, g:i a" }}</small>
+            </div>
+        {% empty %}
+            <p>No entries yet. Start writing!</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

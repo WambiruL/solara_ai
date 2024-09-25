@@ -1,0 +1,22 @@
+h1, h2 {
+    color: #ffd9be;
+}
+.journal-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #1d4241;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.entry {
+    background-color: #123332;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.sentiment {
+    font-weight: bold;
+    color: #ef9c82;
+}

@@ -20,6 +20,9 @@
                         <a class="nav-link active" href="#about"> About</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link active" href="journal/journal_entry"> Journal</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" href="#"> Therapists</a>
                         <span class="coming-soon">Coming Soon</span>
                     </li>
@@ -42,11 +45,11 @@
                     and balanced lives.
                 </p>
                 {% if user.is_authenticated %}
-                    <a href="solara_ai/" class="btn btn-custom">
+                    <a href="chat/solara_ai/" class="btn btn-custom">
                         Start Your Journey
                     </a>
                 {% else %}   
-                <a href="login" class="btn btn-custom">
+                <a href="auth/login" class="btn btn-custom">
                     Start Your Journey
                 </a>                
                 {% endif %}
@@ -101,7 +104,7 @@
                 Start Your Journey
             </a>
         {% else %}   
-            <a href="login" class="btn btn-custom">
+            <a href="auth/login" class="btn btn-custom">
                 Start Your Journey
             </a>                
         {% endif %}
