@@ -20,3 +20,23 @@ h1, h2 {
     font-weight: bold;
     color: #ef9c82;
 }
+.recommendations {
+    background-color: #1d4241;
+    color: #f9eee7;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.recommendations h3 {
+    color: #ffd9be;
+}
+
+.recommendations a {
+    color: #ef9c82;
+    text-decoration: none;
+}
+
+.recommendations a:hover {
+    text-decoration: underline;
+}

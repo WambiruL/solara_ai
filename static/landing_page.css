@@ -120,6 +120,9 @@ body{
 .btn-custom{
     background-color:  #ef9c82 !important;
     color: #123332 !important;
+    border: none;
+}
+.btn-custom, .btn-custom-outline{
     font-weight: 700 !important;
     padding: 1rem 2rem;
     border-radius: 50px;
@@ -127,13 +130,24 @@ body{
     font-size: clamp(1rem, 1.5vw, 1.25rem);
     text-decoration: none;
     display: inline-block;
-    border: none;
+}
+.btn-custom-outline{
+    border: 2px solid #ef9c82 !important;
+    color: #f9eee7 !important;
 }
 .btn-custom:hover, .btn-custom:focus{
     background-color: #ffd9be !important;
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     outline: none;
+}
+.btn-custom-outline:hover, .btn-custom-outline:focus{
+    background-color: #ffd9be !important;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    outline: none;
+    color: #123332 !important;
+    border: none !important;
 }
 .hero-image{
     position: relative;

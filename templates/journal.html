@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 
+{% if user.is_authenticated %}
 <div class="container journal-container">
     <h1 class="text-center">Your Journal</h1>
 
@@ -25,10 +26,23 @@
                 <p class="sentiment">Sentiment: {{ entry.sentiment }}</p>
                 <small>{{ entry.created_at|date:"F j, Y, g:i a" }}</small>
             </div>
+            {% if recommendations %}
+                <div class="recommendations">
+                    <h3>We recommend:</h3>
+                    <ul>
+                        {% for rec in recommendations %}
+                            <li>
+                                <strong>{{ rec.type }}:</strong>
+                                <a href="{{ rec.link }}" target="_blank">{{ rec.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
         {% empty %}
             <p>No entries yet. Start writing!</p>
         {% endfor %}
     </div>
 </div>
-
+{% endif %}
 {% endblock %}

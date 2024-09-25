@@ -6,8 +6,9 @@ def journal_entry(request):
     if request.method == 'POST':
         form = JournalEntryForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('journal_entry')
+            entry = form.save()
+            recommendations = entry.get_recommendations()
+            return render(request, 'journal.html', {'form': form, 'entries': [entry], 'recommendations': recommendations})
     else:
         form = JournalEntryForm()
 
