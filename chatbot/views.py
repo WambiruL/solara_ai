@@ -17,7 +17,6 @@ from dotenv import load_dotenv
 
 # Create your views here.
 
-
 #using json file to get bot responses
 import json
 json_path_intents = os.path.join(settings.BASE_DIR, 'chatbot', 'data', 'intents.json')
@@ -31,30 +30,65 @@ with open(json_path_kb, 'r') as file:
 combined_intents = intents_data['intents'] + kb_data['intents']
     
 #Check similarities using re
-import re
-import random
-def get_response(user_message):
-    user_message = user_message.lower()
-    
-    for intent in combined_intents:  # Iterate through the list directly
-        for pattern in intent['patterns']:
-            if re.search(re.escape(pattern.lower()), user_message):
-                return random.choice(intent['responses'])  # Randomly select a response
-              
-    return "I'm sorry, I didn't understand that. Can you try rephrasing?"
-
-#no checking for similarities
-# import random
+# import re
 # def get_response(user_message):
 #     user_message = user_message.lower()
-    
-#     for intent in combined_intents:
+#     for intent in intents['intents']:
 #         for pattern in intent['patterns']:
-#             if pattern.lower() in user_message:
-#                 return random.choice(intent['responses'])
-    
-#     return "I'm sorry, I didn't understand that. Can you try rephrasing?"
+#             # Use regex to check if the pattern is in the user message
+#             if re.search(re.escape(pattern.lower()), user_message):
+#                 return intent['responses'][0]
+#     return None
 
+#check similarities in trained question and response using spacy
+import spacy
+import random
+import concurrent.futures
+nlp = spacy.load("en_core_web_md") 
+cached_patterns = [
+    (nlp(pattern.lower()), intent.get('responses', ["I'm sorry, I didn't understand that. Can you try rephrasing?"]))
+                   for intent in combined_intents
+                   for pattern in intent.get('patterns', [])
+]
+
+def compare_pattern(user_doc, pattern_doc, responses):
+    if user_doc.vector_norm and pattern_doc.vector_norm:
+        return user_doc.similarity(pattern_doc), random.choice(responses)
+    return 0, None
+         
+def get_response(user_message):
+    user_doc = nlp(user_message.lower())
+    max_similarity = 0
+    best_match = None
+    
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        #submit pattern comparison tasks to the executor
+        futures = [
+            executor.submit(compare_pattern, user_doc, pattern_doc, responses)
+            for pattern_doc, responses in cached_patterns
+        ]
+        for future in concurrent.futures.as_completed(futures):
+            similarity, response = future.result()
+            if similarity > max_similarity:
+                max_similarity = similarity
+                best_match = response
+    
+    if max_similarity > 0.5:  # Threshold for similarity
+        return best_match
+    return "I'm sorry, I didn't understand that. Can you try rephrasing?"
+
+#without checking for similarities
+# def get_response(user_message):
+#     for intent in intents['intents']:
+#         for pattern in intent['patterns']:
+#             if pattern.lower() in user_message.lower():
+#                 return intent['responses'][0]
+#     response = openai.Completion.create(
+    #     engine="text-davinci-003",
+    #     prompt=f"User said: {user_message}\nRespond appropriately:",
+    #     max_tokens=50
+    # )
+    # return response.choices[0].text.strip()
 
 @csrf_exempt
 def chatbot(request):

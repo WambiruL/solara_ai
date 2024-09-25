@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'landing_page',
     'authentication',
     'chatbot',
+    'journal',
 ]
 
 MIDDLEWARE = [
