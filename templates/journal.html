@@ -11,6 +11,7 @@
             <a class="nav-link active" href=" {% url "index" %} ">Home</a>
             <a class="nav-link" href="{% url 'my_entries' %}">My Entries</a>
             <a class="nav-link" href="{% url 'chatbot' %}">Solara Bot</a>
+            <a class="nav-link" href="{% url 'sentiment_visualization' %}">Emotion Graphs</a>
             <a class="nav-link" href="{% url "logout" %}">Logout</a>
         </nav>
     </div>
@@ -51,9 +52,9 @@
         <div class="recommendations">
             <h3>Recommendations</h3>
             <ul class="list-unstyled">
-                <li><a href="#">Writing Prompts</a></li>
-                <li><a href="#">Productivity Tips</a></li>
-                <li><a href="#">Emotional Wellness</a></li>
+                <li><a target="_blank" href="https://www.texthelp.com/resources/journal-writing-prompts/">Writing Prompts</a></li>
+                <li><a target="_blank" href="https://jamesclear.com/productivity">Productivity Tips</a></li>
+                <li><a target="_blank" href="https://www.nih.gov/health-information/emotional-wellness-toolkit#:~:text=How%20you%20feel%20can%20affect,to%20change%20and%20difficult%20times.">Emotional Wellness</a></li>
             </ul>
         </div>
     </div>

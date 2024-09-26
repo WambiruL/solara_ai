@@ -9,8 +9,9 @@
         <nav class="nav flex-column">
             <a class="nav-link active" href="{% url "index" %}">Home</a>
             <a class="nav-link" href="{% url 'my_entries' %}">My Entries</a>
-            <a class="nav-link" href="{% url 'journal_entry' %}">Create New Entry</a>
+            <a class="nav-link" href="{% url 'journal_entry' %}">New Entry</a>
             <a class="nav-link" href="{% url 'chatbot' %}">Solara Bot</a>
+            <a class="nav-link" href="{% url 'sentiment_visualization' %}">Emotion Graphs</a>
             <a class="nav-link" href="{% url "logout" %}">Logout</a>
         </nav>
     </div>
@@ -46,9 +47,9 @@
     <div class="sidebar-right">
         <h3>Explore More:</h3>
         <ul class="list-unstyled">
-            <li><a href="#">Prompts to Write</a></li>
-            <li><a href="#">Self-Reflection Guides</a></li>
-            <li><a href="#">Motivation Tips</a></li>
+            <li><a target="_blank" href="https://medium.com/bouncin-and-behavin-blogs/20-journal-prompts-for-deep-thinking-and-reflection-503fd5630157">Prompts to Write</a></li>
+            <li><a target="_blank" href="https://positivepsychology.com/introspection-self-reflection/">Self-Reflection Guides</a></li>
+            <li><a target="_blank" href="https://www.healthdirect.gov.au/motivation-how-to-get-started-and-staying-motivated">Motivation Tips</a></li>
         </ul>
     </div>
 </div>
