@@ -3,20 +3,23 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-<div class="container">
+<div class="container chat-container">
+    <div class="sidebar-left">
+        <a href=" {% url "index" %} "><img src="{% static 'Images/logo.png' %}" alt="Logo" class="logo"></a>
+        <nav class="nav flex-column">
+            <a class="nav-link active" href=" {% url "index" %} ">Home</a>
+            <a class="nav-link" href="{% url 'journal_entry' %}">Journal</a>
+            <a class="nav-link" href="">Solara Bot</a>
+            <a class="nav-link" href="{% url "logout" %}">Logout</a>
+        </nav>
+    </div>
     <div class="card">
         <div class = "card-header">
             <div class="chat-headerbackground-container">
                 <img src=" {% static "Images/Lux-7.jpg" %} " alt="backgroundimg" class="img-fluid background-image">
             </div>
             <div class="content-container">
-                <a class="navbar-brand" href="">
-                    <img src="{% static "Images/logo.png" %}" class="chatbot-logo"></img>
-                </a>
-                <p class="user_greeting"> Hi, {{user.username}} 😊</p>
-                <div class="logout">
-                    <a href="{% url "logout" %}"><i class="fa-solid fa-right-from-bracket fa-xl" style="color: #f9eee7;"></i></a> 
-                </div> 
+                <p class="user_greeting"> Hi, {{user.username}} 😊</p> 
             </div>       
         </div>
         <div class="card-body" id="chatbox">
