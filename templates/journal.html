@@ -3,45 +3,59 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-<div class="container journal-container">
-    <h1 class="text-center">Your Journal</h1>
+<div class="container-fluid journal-details-layout">
+    <!-- Sidebar Left -->
+    <div class="sidebar-left">
+        <a href=""><img src="{% static 'Images/logo.png' %}" alt="Logo" class="logo"></a>
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="#">My Entries</a>
+            <a class="nav-link" href="#">Settings</a>
+            <a class="nav-link" href="#">Logout</a>
+        </nav>
+    </div>
 
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            {{ form.content }}
+    <!-- Main Journal Content -->
+    <div class="journal-content">
+        <div class="header">
+            <h1 class="text-center">Dear Journal</h1>
         </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-custom">Save Entry</button>
-        </div>
-    </form>
 
-    <hr>
-
-    <h2 class="text-center">Recent Entries</h2>
-    <div class="entries">
-        {% for entry in entries %}
-            <div class="entry">
-                <p>{{ entry.content }}</p>
-                <p class="sentiment">Sentiment: {{ entry.sentiment }}</p>
-                <small>{{ entry.created_at|date:"F j, Y, g:i a" }}</small>
+        <form method="post" class="journal-form">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                {{ form.content }}
             </div>
-            {% if recommendations %}
-                <div class="recommendations">
-                    <h3>We recommend:</h3>
-                    <ul>
-                        {% for rec in recommendations %}
-                            <li>
-                                <strong>{{ rec.type }}:</strong>
-                                <a href="{{ rec.link }}" target="_blank">{{ rec.title }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
+            <div class="text-center">
+                <button type="submit" class="btn btn-custom">Save Entry</button>
+            </div>
+        </form>
+
+        <hr class="divider">
+
+        <h2 class="text-center">Recent Entries</h2>
+        <div class="entries">
+            {% for entry in entries %}
+                <div class="entry-card" onclick="window.location.href='{% url 'journal_details' entry.id %}'">
+                    <p class="entry-content">{{ entry.content|truncatewords:20 }}</p>
+                    <small class="date">{{ entry.created_at|date:"F j, Y" }}</small>
                 </div>
-            {% endif %}
-        {% empty %}
-            <p>No entries yet. Start writing!</p>
-        {% endfor %}
+            {% empty %}
+                <p class="no-entries">No entries yet. Start writing!</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Sidebar Right: Recommendations or Additional Features -->
+    <div class="sidebar-right">
+        <div class="recommendations">
+            <h3>Recommendations</h3>
+            <ul class="list-unstyled">
+                <li><a href="#">Writing Prompts</a></li>
+                <li><a href="#">Productivity Tips</a></li>
+                <li><a href="#">Emotional Wellness</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 {% endif %}

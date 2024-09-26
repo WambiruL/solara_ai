@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid journal-details-layout">
+    <!-- Left Sidebar for Navigation -->
+    <div class="sidebar-left">
+        <a href=""><img src="{% static 'Images/logo.png' %}" alt="Logo" class="logo"></a>
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="#">My Entries</a>
+            <a class="nav-link" href="#">Settings</a>
+            <a class="nav-link" href="#">Logout</a>
+        </nav>
+    </div>
+
+    <!-- Main Journal Entry Content -->
+    <div class="journal-content">
+        <div class="header">
+            <h1 class="text-center">Journal Entry</h1>
+        </div>
+
+        <div class="entry-detail">
+            <p>{{ entry.content }}</p>
+            <p class="sentiment">Sentiment: <span>{{ entry.sentiment }}</span></p>
+            <small class="date">{{ entry.created_at|date:"F j, Y, g:i a" }}</small>
+        </div>
+
+        {% if recommendations %}
+        <div class="recommendations">
+            <h3>We recommend:</h3>
+            <ul class="list-unstyled">
+                {% for rec in recommendations %}
+                <li>
+                    <strong>{{ rec.type }}:</strong>
+                    <a href="{{ rec.link }}" target="_blank">{{ rec.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Right Sidebar for Additional Features -->
+    <div class="sidebar-right">
+        <h3>Explore More:</h3>
+        <ul class="list-unstyled">
+            <li><a href="#">Prompts to Write</a></li>
+            <li><a href="#">Self-Reflection Guides</a></li>
+            <li><a href="#">Motivation Tips</a></li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

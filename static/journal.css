@@ -1,35 +1,165 @@
-h1, h2 {
+/* General Layout */
+.journal-details-layout {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
     color: #ffd9be;
 }
-.journal-container {
-    max-width: 600px;
-    margin: 50px auto;
+
+/* Sidebar Styling */
+.sidebar-left, .sidebar-right {
     background-color: #1d4241;
-    border-radius: 10px;
+    width: 15%;
     padding: 20px;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-.entry {
-    background-color: #123332;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+.sidebar-left {
+    text-align: center;
 }
-.sentiment {
+
+.sidebar-left .nav-link {
+    color: #ef9c82;
+    text-decoration: none;
+    margin: 15px 0;
+    display: block;
     font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.sidebar-left .nav-link:hover {
+    color: #ffd9be;
+}
+
+.sidebar-right h3, .sidebar-left h3 {
+    color: #ffd9be;
+}
+
+.sidebar-right a {
+    color: #ef9c82;
+    text-decoration: none;
+}
+
+.sidebar-right a:hover {
+    text-decoration: underline;
+}
+
+/* Journal Content */
+.journal-content {
+    width: 65%;
+    background-color: #1d4241;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.journal-content h1 {
+    color: #ffd9be !important;
+    font-family: "Rubik Wet Paint", system-ui;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Entries Container */
+.entries {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 4 cards per row */
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* Individual Entry Card */
+.entry-card {
+    background-color: #ffd9be;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 150px; /* Fixed height for uniformity */
+}
+
+/* Hover Effect for Entry Card */
+.entry-card:hover {
+    background-color: #ef9c82;
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Entry Content */
+.entry-content {
+    color: #1d4241;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    flex-grow: 1; /* Ensures content takes up space */
+    overflow: hidden; /* In case content exceeds the allocated space */
+}
+
+/* Date Styling */
+.date {
+    font-size: 0.9em;
+    color: #1d4241;
+    text-align: right;
+    margin-top: 15px;
+    font-style: italic;
+}
+
+/* No Entries Message */
+.no-entries {
+    text-align: center;
+    color: #ffd9be;
+    font-style: italic;
+    width: 100%;
+    margin-top: 30px;
+}
+
+/* Entry Detail Styling */
+.entry-detail {
+    background-color: #ffd9be;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: #1d4241;
+}
+
+.entry-detail p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.entry-detail .sentiment {
+    font-weight: bold;
+    margin-top: 20px;
     color: #ef9c82;
 }
+
+.entry-detail .sentiment span {
+    color: #1d4241;
+}
+
+.entry-detail .date {
+    font-size: 0.9em;
+    color: #1d4241;
+}
+
+/* Recommendations Styling */
 .recommendations {
     background-color: #1d4241;
-    color: #f9eee7;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+    box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .recommendations h3 {
     color: #ffd9be;
+    margin-bottom: 15px;
+    font-size: 15px;
+    font-weight: 700 !important;
 }
 
 .recommendations a {
