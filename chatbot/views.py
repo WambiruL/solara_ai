@@ -3,16 +3,7 @@ from .models import Chat, Feedback
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import openai
-from langchain_openai import OpenAI
-# from langchain.llms import OpenAI
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
 import os
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-# load_dotenv()
 
 
 # Create your views here.
@@ -114,9 +105,6 @@ def chatbot(request):
         
         try:
             bot_response = get_response(user_message)
-            # # If no response is found, use OpenAI
-            # if bot_response is None:
-            #     bot_response = chain.run(message=user_message)
                 
             #save bot's response to the chat model
             if request.user.is_authenticated:

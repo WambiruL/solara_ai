@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import JournalEntry
+from .models import JournalEntry, Recommendation
 from .forms import JournalEntryForm
 from django.core.paginator import Paginator
 from django.utils import timezone
 from datetime import timedelta
 import plotly.express as px
 import pandas as pd
-from collections import defaultdict
+
 
 # View for the main journal page
 def journal_entry(request):
@@ -28,6 +28,7 @@ def journal_entry(request):
         'entries': entries
     })
 
+
 # View for individual journal entry detail page
 def journal_details(request, entry_id):
     entry = get_object_or_404(JournalEntry, id=entry_id)
@@ -43,7 +44,7 @@ def my_entries(request):
     # Get all the entries for the logged-in user
     entries = JournalEntry.objects.filter(user=request.user).order_by('-created_at')
     
-    # Optional: Add sorting functionality based on query parameters
+    # Sorting functionality based on query parameters
     sort_option = request.GET.get('sort', '')
     if sort_option == 'date_asc':
         entries = entries.order_by('created_at')
@@ -73,8 +74,8 @@ def sentiment_visualization(request):
     # Prepare data for charting (grouping by day of the week)
     data = {
         "Day": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        "Positive": [0] * 7,
-        "Negative": [0] * 7,
+        "Happy": [0] * 7,
+        "Stressed": [0] * 7,
         "Neutral": [0] * 7
     }
 
@@ -87,10 +88,10 @@ def sentiment_visualization(request):
     for entry in entries:
         day_of_week = entry.created_at.strftime('%A')  # Get day name (e.g., 'Monday')
         day_index = get_day_index(day_of_week)
-        if entry.sentiment == 'Positive':
-            data["Positive"][day_index] += 1
-        elif entry.sentiment == 'Negative':
-            data["Negative"][day_index] += 1
+        if entry.sentiment == 'Happy':
+            data["Happy"][day_index] += 1
+        elif entry.sentiment == 'Stressed':
+            data["Stressed"][day_index] += 1
         else:
             data["Neutral"][day_index] += 1
 
@@ -98,7 +99,7 @@ def sentiment_visualization(request):
     df = pd.DataFrame(data)
 
     # Create the line chart with Plotly
-    fig = px.line(df, x='Day', y=['Positive', 'Negative', 'Neutral'],
+    fig = px.line(df, x='Day', y=['Happy', 'Stressed', 'Neutral'],
                   title="Sentiment Analysis by Day of the Week",
                   labels={"value": "Count", "variable": "Sentiment Type"})
 
@@ -110,17 +111,17 @@ def sentiment_visualization(request):
     )
     
     # Customize the lines for each sentiment
-    fig.update_traces(selector=dict(name="Positive"), line=dict(color='#ef9c82'))  # Primary accent
-    fig.update_traces(selector=dict(name="Negative"), line=dict(color='#1d4241'))  # Secondary accent
+    fig.update_traces(selector=dict(name="Happy"), line=dict(color='#ef9c82'))  # Primary accent
+    fig.update_traces(selector=dict(name="Stressed"), line=dict(color='#f44336'))  # Secondary accent
     fig.update_traces(selector=dict(name="Neutral"), line=dict(color='#ffd9be'))   # Neutral in Headings color
 
     # Customizing layout
     fig.update_layout(
         plot_bgcolor="#123332",  # Background color
         paper_bgcolor="#123332",  # Outer background color
-        font=dict(family="Arial", size=14, color="#f9eee7"),  # Text color (Text)
+        font=dict(family="Nunito", size=14, color="#f9eee7"),  # Text color (Text)
         title=dict(
-            text="Sentiment Analysis by Day of the Week",
+            text="Mood Patterns Over the Week",
             x=0.5,  # Center the title
             font=dict(size=20, color="#ffd9be", weight = 700)  # Title in Headings color
         ),
@@ -133,7 +134,7 @@ def sentiment_visualization(request):
             zeroline=False
         ),
         yaxis=dict(
-            title="Sentiment Count",  # Axis title
+            title="Number of Journal Entries",  # Axis title
             titlefont=dict(size=15, color="#ffd9be"),  # Headings color for axis title
             tickfont=dict(size=14, color="#f9eee7"),  # Text color for ticks
             showgrid=True,  # Show horizontal gridlines

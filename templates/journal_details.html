@@ -24,13 +24,13 @@
 
         <div class="entry-detail">
             <p>{{ entry.content }}</p>
-            <p class="sentiment">Sentiment: <span>{{ entry.sentiment }}</span></p>
+            <p class="sentiment">Sentiment: <span class="badge bg-info">{{ entry.sentiment }}</span></p>
             <small class="date">{{ entry.created_at|date:"F j, Y, g:i a" }}</small>
         </div>
 
         {% if recommendations %}
         <div class="recommendations">
-            <h3>We recommend:</h3>
+            <h3>Curated Picks for You</h3>
             <ul class="list-unstyled">
                 {% for rec in recommendations %}
                 <li>
@@ -39,6 +39,11 @@
                 </li>
                 {% endfor %}
             </ul>
+        </div>
+        {% else %}
+        <div class="no-recommendations">
+            <h4>No Recommendations Available</h4>
+            <p>Check back later for personalized content based on your entries!</p>
         </div>
         {% endif %}
     </div>

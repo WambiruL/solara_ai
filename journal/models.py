@@ -1,6 +1,8 @@
 from django.db import models
 from textblob import TextBlob
 from django.contrib.auth.models import User
+from .utils import extract_keywords
+import random
 
 class JournalEntry(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -24,18 +26,37 @@ class JournalEntry(models.Model):
         super().save(*args, **kwargs)
         
     def get_recommendations(self):
-        recommendations = {
-            'Positive': [
-                {"type": "Video", "title": "How to Stay Productive", "link": "https://www.youtube.com/watch?v=positive_video1"},
-                {"type": "Article", "title": "10 Tips for Maintaining Positivity", "link": "https://example.com/positive-article1"},
-            ],
-            'Negative': [
-                {"type": "Video", "title": "Mindfulness Meditation", "link": "https://www.youtube.com/watch?v=negative_video1"},
-                {"type": "Article", "title": "Coping with Stress", "link": "https://example.com/negative-article1"},
-            ],
-            'Neutral': [
-                {"type": "Video", "title": "Daily Mindfulness Practices", "link": "https://www.youtube.com/watch?v=neutral_video1"},
-                {"type": "Article", "title": "The Power of Calm", "link": "https://example.com/neutral-article1"},
-            ]
-        }
-        return recommendations.get(self.sentiment, [])
+        # Extract keywords from the content
+        keywords = extract_keywords(self.content)
+        
+        # Fetch recommendations based on sentiment and keywords
+        recommendations = list(Recommendation.objects.filter(
+            models.Q(sentiment=self.sentiment) | 
+            models.Q(title__icontains=keywords)
+        ))
+
+        # Randomly select 2 recommendations
+        return random.sample(recommendations, min(2, len(recommendations)))
+
+class Recommendation(models.Model):
+    SENTIMENT_CHOICES = [
+        ('Positive', 'Positive'),
+        ('Negative', 'Negative'),
+        ('Neutral', 'Neutral'),
+    ]
+
+    TYPE_CHOICES = [
+        ('Video', 'Video'),
+        ('Article', 'Article'),
+        ('Podcast', 'Podcast'),
+        ('Book', 'Book'),
+    ]
+
+    sentiment = models.CharField(max_length=50, choices=SENTIMENT_CHOICES)
+    type = models.CharField(max_length=50, choices=TYPE_CHOICES)
+    title = models.CharField(max_length=200)
+    link = models.URLField()
+
+    def __str__(self):
+        return f"{self.type}: {self.title} ({self.sentiment})"
+
