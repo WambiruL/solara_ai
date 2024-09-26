@@ -170,3 +170,55 @@
 .recommendations a:hover {
     text-decoration: underline;
 }
+
+/* MY entries */
+/* Main Content Area */
+.main-content {
+    padding: 20px;
+    width: 100%;
+}
+
+/* Container for My Entries Page */
+.my-entries-container {
+    max-width: 1100px;
+    background-color: #1d4241;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Header Section */
+.my-entries-container .header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.my-entries-container h1 {
+    color: #ffd9be !important;
+    font-family: "Rubik Wet Paint", system-ui;
+}
+
+/* Filter Section */
+.filter-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.filter-form {
+    display: flex;
+    align-items: center;
+}
+
+.filter-select {
+    background-color: #ffd9be;
+    color: #1d4241;
+    border: 1px solid #ef9c82;
+    padding: 8px 15px;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.pagination{
+    margin-top: 20px;
+}

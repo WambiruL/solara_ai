@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="container-fluid journal-details-layout">
+    <!-- Sidebar Left -->
+    <div class="sidebar-left">
+        <a href=""><img src="{% static 'Images/logo.png' %}" alt="Logo" class="logo"></a>
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="{% url 'index' %}">Home</a>
+            <a class="nav-link" href="{% url 'journal_entry' %}">Create New Entry</a>
+            <a class="nav-link" href="">My Entries</a>
+            <a class="nav-link" href="{% url 'chatbot' %}">Solara Bot</a>
+            <a class="nav-link" href="{% url "logout" %}">Logout</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="container my-entries-container">
+            <div class="header">
+                <h1 class="text-center">My Journal Entries</h1>
+            </div>
+
+            <!-- Filter or Sorting Section -->
+            <div class="filter-section">
+                <form method="GET" action="" class="filter-form">
+                    <select name="sort" class="filter-select">
+                        <option value="">Sort by</option>
+                        <option value="date_asc" {% if request.GET.sort == 'date_asc' %}selected{% endif %}>Date: Oldest First</option>
+                        <option value="date_desc" {% if request.GET.sort == 'date_desc' %}selected{% endif %}>Date: Newest First</option>
+                    </select>
+                    <button type="submit" class="btn btn-custom">Apply</button>
+                </form>
+            </div>
+
+            <!-- Entries Grid -->
+            <div class="entries">
+                {% for entry in entries %}
+                    <div class="entry-card" onclick="window.location.href='{% url 'journal_details' entry.id %}'">
+                        <p class="entry-content">{{ entry.content|truncatewords:20 }}</p>
+                        <small class="date">{{ entry.created_at|date:"F j, Y" }}</small>
+                    </div>
+                {% empty %}
+                    <p class="no-entries">You haven't written any entries yet. Start journaling now!</p>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">&laquo; first</a>
+                        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -8,10 +8,10 @@
     <div class="sidebar-left">
         <a href=""><img src="{% static 'Images/logo.png' %}" alt="Logo" class="logo"></a>
         <nav class="nav flex-column">
-            <a class="nav-link active" href="#">Home</a>
-            <a class="nav-link" href="#">My Entries</a>
-            <a class="nav-link" href="#">Settings</a>
-            <a class="nav-link" href="#">Logout</a>
+            <a class="nav-link active" href=" {% url "index" %} ">Home</a>
+            <a class="nav-link" href="{% url 'my_entries' %}">My Entries</a>
+            <a class="nav-link" href="{% url 'chatbot' %}">Solara Bot</a>
+            <a class="nav-link" href="{% url "logout" %}">Logout</a>
         </nav>
     </div>
 
