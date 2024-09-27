@@ -18,20 +18,33 @@
 
 ## Project Overview
 
-Solara AI is a conversational mental health chatbot built using Django, LangChain, and OpenAI. The chatbot is designed to offer a supportive and empathetic environment for students dealing with mental health issues. The chatbot leverages natural language processing and AI to respond intelligently to user input and simulate helpful conversations.
+**Solara** is a mental health support platform built with Django, designed to provide students with a safe and empathetic space to manage and improve their mental well-being. Through personalized journaling, real-time insights, and an interactive AI therapist, Solara helps users navigate emotional challenges with support tailored to their unique needs.
 
 ## Features
-- **User Authentication**: Register, login, and logout functionality using Django's built-in authentication.
-- **Interactive Chatbot**: A friendly, empathetic AI mental health therapist that can converse with users.
-- **Dynamic Responses**: AI-powered responses generated using OpenAI's GPT models integrated with LangChain.
-- **Secure API Key Management**: Environment variables are used to securely store sensitive information, like the OpenAI API key.
+- **User Authentication**: Secure registration, login, and logout using Django's built-in authentication.
+
+- **Interactive Chatbot**: Solara, an empathetic AI mental health therapist, provides conversational support to help users manage their mental well-being.
+
+- **Journal**: Users can create, view, and manage personal journal entries to track their thoughts and emotions over time.
+
+- **Recommendations**: Personalized resource suggestions based on the sentiment analysis of journal entries, offering tailored content to support mental health.
+
+- **Data Visualization**: Interactive graphs displaying mood trends based on journal entries, helping users gain insights into their emotional patterns throughout the week.
 
 ## Technology Stack
+- **Django**: A robust web framework for server-side logic.
 
-- **Backend**: Django, Python
-- **Frontend**: HTML, CSS, Bootstrap, JavaScript
-- **AI Integration**: LangChain, OpenAI GPT models
-- **Database**: SQLite (default Django database, but can be configured for PostgreSQL or other databases)
+- **Python**: The primary programming language utilized for development.
+- **HTML, CSS, Bootstrap**: Technologies for structuring and styling the user interface.
+- **SpaCy**: A natural language processing library for chatbot intent recognition and processing.
+- **Mental Health JSON Files**: Custom datasets providing responses for the chatbot.
+
+- **JavaScript**: Enhances interactivity throughout the platform.
+- **SQLite**: The default database for data storage in Django.
+- **SpaCy**: Utilized for natural language processing in the conversational AI.
+- **Plotly**: A powerful tool for creating interactive charts to visualize sentiment trends.
+- **Pandas**: Used for data manipulation and preparation for visualizations.
+- **TextBlob**: Analyzes sentiment to track mood changes.
 
 ## Setup Instructions
 
@@ -105,13 +118,22 @@ Open your browser and go to `http://127.0.0.1:8000/` to see the application runn
 ## User Interface Design
 
 #### Landing Page
-![alt text](landing_page.PNG)
+![alt text](landing.PNG)
 
 #### Sign In
 ![alt text](login.PNG)
 
 #### Solara Bot
-![alt text](bot.PNG)
+![alt text](solara_bot.PNG)
+
+#### Journal
+![alt text](journal.PNG)
+
+#### Resources recommendation
+![alt text](recommend.PNG)
+
+#### Data Visualization
+![alt text](graph4.PNG)
 
 ## Contributing
 
