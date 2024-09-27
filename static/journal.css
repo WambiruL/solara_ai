@@ -250,3 +250,12 @@
     justify-content: space-around;
     align-items: center;
 }
+.chart-details p {
+    font-size: 14px;
+    color: #f9eee7 !important;
+    line-height: 1. !important;
+}
+
+.chart-details strong {
+    color: #ffd9be !important;
+}

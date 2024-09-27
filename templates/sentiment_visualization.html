@@ -22,8 +22,14 @@
             {{ graph_html | safe }}
         </div>
         <p>This chart shows how your mood has changed over the week based on your journal entries.</p>
+        <div class="chart-details">
+            <p><strong>What the Lines Mean:</strong> The line represents your overall mood trend throughout the week. A steady upward trend shows positive mood improvement, while downward dips reflect days of more challenging emotions.</p>
+            <p><strong>How Sentiment is Measured:</strong> Sentiment is measured using a score between -1 (negative) and 1 (positive). The score is based on the language you used in your journal entries, where positive words increase your sentiment score and negative words reduce it.</p>
+            <p><strong>Exploring Patterns:</strong> Use this chart to discover patterns in your emotions. For instance, do you notice any particular day of the week where your mood is lower or higher? This might help you recognize triggers or moments when you feel your best.</p>
+        </div>
     </div>
 
+    
 </div>
 
 {% endblock %}

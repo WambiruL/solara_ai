@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from textblob import TextBlob
 from .models import JournalEntry, Recommendation
 from .forms import JournalEntryForm
 from django.core.paginator import Paginator
@@ -74,9 +75,8 @@ def sentiment_visualization(request):
     # Prepare data for charting (grouping by day of the week)
     data = {
         "Day": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        "Happy": [0] * 7,
-        "Stressed": [0] * 7,
-        "Neutral": [0] * 7
+        "Sentiment Score": [0] * 7,  # Sum of sentiment scores
+        "Entry Count": [0] * 7       # Count of entries per day for averaging
     }
 
     # Helper function to get the index of a day
@@ -84,24 +84,29 @@ def sentiment_visualization(request):
         days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         return days.index(day)
 
-    # Process the journal entries and count sentiments for each day of the week
+    # Process the journal entries and calculate sentiment scores for each day of the week
     for entry in entries:
         day_of_week = entry.created_at.strftime('%A')  # Get day name (e.g., 'Monday')
         day_index = get_day_index(day_of_week)
-        if entry.sentiment == 'Happy':
-            data["Happy"][day_index] += 1
-        elif entry.sentiment == 'Stressed':
-            data["Stressed"][day_index] += 1
-        else:
-            data["Neutral"][day_index] += 1
+        
+        # Assuming entry.sentiment is stored as a score (TextBlob polarity)
+        sentiment_score = TextBlob(entry.content).sentiment.polarity  # Recalculate sentiment score
+        data["Sentiment Score"][day_index] += sentiment_score
+        data["Entry Count"][day_index] += 1
+
+    # Calculate average sentiment score per day (to avoid division by zero)
+    data["Average Sentiment"] = [
+        (data["Sentiment Score"][i] / data["Entry Count"][i]) if data["Entry Count"][i] > 0 else 0
+        for i in range(7)
+    ]
 
     # Convert data to pandas DataFrame
     df = pd.DataFrame(data)
 
-    # Create the line chart with Plotly
-    fig = px.line(df, x='Day', y=['Happy', 'Stressed', 'Neutral'],
-                  title="Sentiment Analysis by Day of the Week",
-                  labels={"value": "Count", "variable": "Sentiment Type"})
+    # Create the line chart with Plotly (use Average Sentiment for y-axis)
+    fig = px.line(df, x='Day', y='Average Sentiment',
+                  title="Average Sentiment Score by Day of the Week",
+                  labels={"Average Sentiment": "Average Sentiment Score"})
 
     # Custom styling of the plot
     fig.update_traces(
@@ -109,11 +114,12 @@ def sentiment_visualization(request):
         marker=dict(size=10),   # Marker size
         line=dict(width=3)      # Line thickness
     )
-    
-    # Customize the lines for each sentiment
-    fig.update_traces(selector=dict(name="Happy"), line=dict(color='#ef9c82'))  # Primary accent
-    fig.update_traces(selector=dict(name="Stressed"), line=dict(color='#f44336'))  # Secondary accent
-    fig.update_traces(selector=dict(name="Neutral"), line=dict(color='#ffd9be'))   # Neutral in Headings color
+
+    # Customize the line color for sentiment scores
+    fig.update_traces(line=dict(color='#ffd9be'))
+    # fig.update_traces(selector=dict(name="Happy"), line=dict(color='#A3E635'))  # Primary accent
+    # fig.update_traces(selector=dict(name="Stressed"), line=dict(color='#f44336'))  # Secondary accent
+    # fig.update_traces(selector=dict(name="Neutral"), line=dict(color='#ffd9be'))   # Neutral in Headings color
 
     # Customizing layout
     fig.update_layout(
@@ -123,7 +129,7 @@ def sentiment_visualization(request):
         title=dict(
             text="Mood Patterns Over the Week",
             x=0.5,  # Center the title
-            font=dict(size=20, color="#ffd9be", weight = 700)  # Title in Headings color
+            font=dict(size=20, color="#ffd9be", weight=700)  # Title in Headings color
         ),
         xaxis=dict(
             title="Day of the Week",  # Axis title
@@ -134,7 +140,7 @@ def sentiment_visualization(request):
             zeroline=False
         ),
         yaxis=dict(
-            title="Number of Journal Entries",  # Axis title
+            title="Overall Mood Change",  # Axis title
             titlefont=dict(size=15, color="#ffd9be"),  # Headings color for axis title
             tickfont=dict(size=14, color="#f9eee7"),  # Text color for ticks
             showgrid=True,  # Show horizontal gridlines
