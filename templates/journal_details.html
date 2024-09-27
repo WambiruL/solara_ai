@@ -46,6 +46,9 @@
             <p>Check back later for personalized content based on your entries!</p>
         </div>
         {% endif %}
+
+        {% comment %} delete button {% endcomment %}
+        <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Entry</button>
     </div>
 
     <!-- Right Sidebar for Additional Features -->
@@ -56,6 +59,32 @@
             <li><a target="_blank" href="https://positivepsychology.com/introspection-self-reflection/">Self-Reflection Guides</a></li>
             <li><a target="_blank" href="https://www.healthdirect.gov.au/motivation-how-to-get-started-and-staying-motivated">Motivation Tips</a></li>
         </ul>
+    </div>
+</div>
+
+<!-- Modal for Delete Confirmation -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2>Are you sure you want to delete this entry?</h2>
+                <div class="entry-detail">
+                    <p>{{ entry.content }}</p>
+                    <small class="date">{{ entry.created_at|date:"F j, Y, g:i a" }}</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form method="POST" action="{% url 'journal_details' entry.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-custom">Delete Entry</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>
 

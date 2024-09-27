@@ -157,6 +157,7 @@
     border-radius: 10px;
     margin-top: 30px;
     box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
 .recommendations h3 {
@@ -258,4 +259,25 @@
 
 .chart-details strong {
     color: #ffd9be !important;
+}
+
+/* Modal */
+.modal-content{
+    background-color: #123332 !important;
+    color: #f9eee7 !important;
+}
+.modal-title{
+    font-size: 20px !important;
+    color: #ef9c82 !important;
+    font-weight: 700 !important;
+}
+.modal-body h2{
+    font-size: 20px !important;
+    font-weight: 200 !important;
+}
+.modal-header{
+    border-bottom: 2px solid #ef9c82 !important;
+}
+.modal-footer{
+    border-top: 2px solid #ef9c82 !important;
 }

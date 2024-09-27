@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from textblob import TextBlob
-from .models import JournalEntry, Recommendation
+from .models import JournalEntry
 from .forms import JournalEntryForm
 from django.core.paginator import Paginator
 from django.utils import timezone
 from datetime import timedelta
 import plotly.express as px
 import pandas as pd
+from django.contrib import messages
 
 
 # View for the main journal page
@@ -35,10 +36,16 @@ def journal_details(request, entry_id):
     entry = get_object_or_404(JournalEntry, id=entry_id)
     recommendations = entry.get_recommendations()
     
+    if request.method == 'POST':
+        entry.delete()
+        messages.success(request, 'Journal entry deleted successfully.')
+        return redirect('my_entries')  # Redirect to the user's entries page
+    
     return render(request, 'journal_details.html', {
         'entry': entry,
         'recommendations': recommendations
     })
+
 
 # My entries
 def my_entries(request):
