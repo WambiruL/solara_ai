@@ -8,9 +8,8 @@
   - [1. Clone the Repository](#1-clone-the-repository)
   - [2. Create a Virtual Environment](#2-create-a-virtual-environment)
   - [3. Install Dependencies](#3-install-dependencies)
-  - [4. Set Up Environment Variables](#4-set-up-environment-variables)
-  - [5. Migrate the Database](#5-migrate-the-database)
-  - [6. Run the Development Server](#6-run-the-development-server)
+  - [4. Migrate the Database](#5-migrate-the-database)
+  - [5. Run the Development Server](#6-run-the-development-server)
 - [Usage](#usage)
 - [User Interface Design](#user-interface-design)
 - [Contributing](#contributing)
@@ -36,7 +35,6 @@
 
 - **Python**: The primary programming language utilized for development.
 - **HTML, CSS, Bootstrap**: Technologies for structuring and styling the user interface.
-- **SpaCy**: A natural language processing library for chatbot intent recognition and processing.
 - **Mental Health JSON Files**: Custom datasets providing responses for the chatbot.
 
 - **JavaScript**: Enhances interactivity throughout the platform.
@@ -66,13 +64,13 @@ Activate the virtual environment:
 - On macOS/Linux:
 
   ```bash
-  source venv/bin/activate
+  source virtualEnv/bin/activate
   ```
 
 - On Windows:
 
   ```bash
-  venv\Scripts\activate
+  virtualEnv\Scripts\activate
   ```
 
 ### 3. Install Dependencies
@@ -81,14 +79,6 @@ Install all the required Python packages using `pip`:
 
 ```bash
 pip install -r requirements.txt
-```
-
-### 4. Set Up Environment Variables
-
-Create a `.env` file in the root of your project to store your environment variables, specifically the OpenAI API key:
-
-```
-OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 ### 5. Migrate the Database
@@ -111,9 +101,12 @@ Open your browser and go to `http://127.0.0.1:8000/` to see the application runn
 
 ## Usage
 
-1. **Register**: Create an account on the application using the registration form.
-2. **Login**: After registering, log in to access the chatbot.
-3. **Start Chatting**: Engage with the chatbot by typing your messages into the chatbox. The bot will respond with AI-powered responses to help guide you through your issues.
+1. **Register**: Sign up for an account using the registration form to create your profile.
+2. **Login**: After successful registration, log in to your account to access all features of the application.
+3. **Explore Journal**: Navigate to the journal section to create, view, and manage your entries.
+4. **Chat with Solara**: Engage with the AI mental health therapist by typing your messages in the chatbox. The chatbot provides empathetic responses to support your mental health journey.
+5. **Receive Recommendations**: After journaling, you can view personalized resource recommendations based on your entries.
+6. **Visualize Emotions**: Access emotion graphs to track your sentiments over time and gain insights into your mental well-being.
 
 ## User Interface Design
 
@@ -130,7 +123,7 @@ Open your browser and go to `http://127.0.0.1:8000/` to see the application runn
 ![alt text](journal.PNG)
 
 #### Resources recommendation
-![alt text](recommend.PNG)
+![alt text](recommendations.PNG)
 
 #### Data Visualization
 ![alt text](graph4.PNG)
