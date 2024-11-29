@@ -131,7 +131,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/Images')
 MEDIA_URL = '/Images/'
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
