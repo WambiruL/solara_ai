@@ -1,1 +1,1 @@
-web: gunicorn solara_ai.wsgi
+web: gunicorn solara.wsgi
