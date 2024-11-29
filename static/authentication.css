@@ -106,10 +106,15 @@ form{
     font-weight: 600 !important;
 }
 .form-text{
-    color: #908e8e !important;
+    color:   #e0e0e0 !important;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: 5px;
+    margin-bottom: 10px; 
+
 }
 .sign-up-submit{
-    width: 100px !important;
+    width: 200px !important;
     font-weight: 1000 !important;
     margin-top: 20px;
 }

@@ -1,1 +1,1 @@
-web: gunicorn solara_ai.wsgi --log-file -
+web: gunicorn solara_ai.wsgi
